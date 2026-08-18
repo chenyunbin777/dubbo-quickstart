@@ -37,7 +37,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${MYSQL_URL:jdbc:mysql://127.0.0.1:3306/cyb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
     username: root
-    password: abc123456
+#     MYSQL_PASSWORD放入环境变量中   路径：Run → Edit Configurations → QuickStartApplication → Environment variables
+    password: ${MYSQL_PASSWORD:}
 
 mybatis-plus:
   configuration:
