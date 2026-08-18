@@ -2,6 +2,11 @@ package org.apache.dubbo.samples.quickstart.dubbo.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.cluster.ClusterInvoker;
 import org.apache.dubbo.samples.quickstart.dubbo.api.DemoService;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/dubbo/test")
+@Tag(name = "Dubbo 测试", description = "Dubbo 远程服务调用和 Sentinel 降级测试接口")
 public class TestController {
 
     //version来实现版本灰度发布，实现多版本控制
@@ -52,7 +58,14 @@ public class TestController {
             blockHandler = "handleBlock",
             fallback = "handleFallback")  // 增加 fallback 处理业务异常
     @GetMapping("/sayHello")
-    public String sayHello(@RequestParam("name") String name) {
+    @Operation(summary = "Dubbo 问候", description = "通过 Dubbo 调用 2.0 版本的远程服务；受 Sentinel 限流和异常降级保护")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "调用成功，或已返回 Sentinel 降级结果"),
+            @ApiResponse(responseCode = "400", description = "缺少必填的 name 参数")
+    })
+    public String sayHello(
+            @Parameter(description = "姓名；传入 error 可测试异常降级", example = "Dubbo", required = true)
+            @RequestParam("name") String name) {
 
         if ("error".equals(name)) {
             throw new RuntimeException("模拟业务异常报错！");
