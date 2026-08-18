@@ -1,7 +1,7 @@
-package org.apache.dubbo.samples.quickstart.user.controller;
+package org.apache.dubbo.samples.quickstart.controller;
 
-import org.apache.dubbo.samples.quickstart.user.entity.User;
-import org.apache.dubbo.samples.quickstart.user.service.UserService;
+import org.apache.dubbo.samples.quickstart.entity.User;
+import org.apache.dubbo.samples.quickstart.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

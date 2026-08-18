@@ -1,4 +1,4 @@
-package org.apache.dubbo.samples.quickstart.user.entity;
+package org.apache.dubbo.samples.quickstart.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableLogic;
