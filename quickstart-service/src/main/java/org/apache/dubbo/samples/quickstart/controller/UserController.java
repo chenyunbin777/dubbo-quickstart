@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<User> get(
             @Parameter(description = "用户 ID", example = "1", required = true)
             @PathVariable("id") Long id) {
-        User user = userService.getById(id);
+        User user = userService.findUserById(id);
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
     }
 
@@ -71,12 +71,12 @@ public class UserController {
             @Parameter(description = "用户 ID", example = "1", required = true)
             @PathVariable("id") Long id,
             @RequestBody User user) {
-        if (userService.getById(id) == null) {
+        if (userService.findUserById(id) == null) {
             return ResponseEntity.notFound().build();
         }
         user.setId(id);
-        userService.updateById(user);
-        return ResponseEntity.ok(user);
+        User updated = userService.updateUser(user);
+        return updated == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
@@ -88,7 +88,7 @@ public class UserController {
     public ResponseEntity<Void> delete(
             @Parameter(description = "用户 ID", example = "1", required = true)
             @PathVariable("id") Long id) {
-        return userService.removeById(id)
+        return userService.deleteUser(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
